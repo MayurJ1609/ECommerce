@@ -1,11 +1,12 @@
 const User = require("../models/user");
-const { check, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 
 exports.signup = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log("Controller errors - " + errors.array()[0].msg);
     return res.status(422).json({
       error: errors.array()[0].msg,
     });
@@ -87,7 +88,7 @@ exports.isSignedIn = expressJwt({
 
 //custom middlewares
 exports.isAuthenticated = (req, res, next) => {
-  let checker = req.profile && req.auth && req.profile._id === req.auth._id;
+  let checker = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!checker) {
     return res.status(403).json({
       error: "Access denied",
