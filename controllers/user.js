@@ -14,6 +14,7 @@ exports.getUserById = (req, res, next, id) => {
   });
 };
 
+//actual controller methods
 exports.getUser = (req, res) => {
   req.profile.salt = undefined;
   req.profile.encry_password = undefined;

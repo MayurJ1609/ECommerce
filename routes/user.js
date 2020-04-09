@@ -10,7 +10,10 @@ const {
 } = require("../controllers/user");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 
+//params
 router.param("userId", getUserById);
+
+//actual routes
 router.get("/user/:userId", isSignedIn, isAuthenticated, getUser);
 router.put("/user/:userId", isSignedIn, isAuthenticated, updateUser);
 router.put(
