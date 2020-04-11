@@ -9,6 +9,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
+const productRoutes = require("./routes/product");
 
 //DB Connection
 mongoose
@@ -33,6 +34,7 @@ app.use(cors());
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
 
 //PORT
 const port = process.env.PORT || 8000;
@@ -45,10 +47,10 @@ app.listen(port, () => {
 /* ---------------------------MYSQL CONNECTION CODE COMMENTED---------------------------------
 var mysql = require("mysql");
 var connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root@123",
-  database: "my_db",
+  host: process.env.MYSQLDATABASEHOST,
+  user: process.env.MYSQLDATABASEUSER,
+  password: process.env.MYSQLDATABASEPASSWORD,
+  database: process.env.MYSQLDATABASENAME,
 });
 
 connection.connect();
