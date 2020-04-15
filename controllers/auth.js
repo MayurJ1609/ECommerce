@@ -3,7 +3,9 @@ const { validationResult } = require("express-validator");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 
+//signup controller
 exports.signup = (req, res) => {
+  //validate the data here
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log("Controller errors - " + errors.array()[0].msg);
@@ -11,6 +13,7 @@ exports.signup = (req, res) => {
       error: errors.array()[0].msg,
     });
   }
+  //actual signup logic goes here - Save data to DB
   const user = new User(req.body);
   user.save((error, user) => {
     if (error) {
@@ -26,6 +29,7 @@ exports.signup = (req, res) => {
   });
 };
 
+//signin controller
 exports.signin = (req, res) => {
   const errors = validationResult(req);
   const { email, password } = req.body;
@@ -59,7 +63,7 @@ exports.signin = (req, res) => {
     );
     //put token to cookie
     res.cookie("token", token, { expire: new Date() + 9999 });
-    //send response to FE
+    //Data to be sent as response to FE
     const { _id, name, email, role } = user;
     return res.status(200).json({
       token,
@@ -80,7 +84,7 @@ exports.signout = (req, res) => {
   });
 };
 
-//Protected routes
+//Protected routes - middlewares
 exports.isSignedIn = expressJwt({
   secret: process.env.SECRET,
   userProperty: "auth",
