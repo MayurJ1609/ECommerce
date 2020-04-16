@@ -15,6 +15,7 @@ exports.getUserById = (req, res, next, id) => {
 };
 
 //actual controller methods
+//from user route
 exports.getUser = (req, res) => {
   req.profile.salt = undefined;
   req.profile.encry_password = undefined;
@@ -67,6 +68,7 @@ exports.userPurchaseList = (req, res) => {
     });
 };
 
+//from order route
 exports.pushOrderInPurchaseList = (req, res, next) => {
   let purchases = [];
   req.body.order.products.forEach((product) => {
