@@ -32,6 +32,7 @@ exports.getCategory = (req, res) => {
 exports.getAllCategories = (req, res) => {
   Category.find().exec((error, categories) => {
     if (error) {
+      console.log("Error : " + error);
       return res.status(400).json({
         error: "No categories found",
       });
