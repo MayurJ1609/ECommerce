@@ -42,16 +42,33 @@ exports.getAllCategories = (req, res) => {
 };
 
 exports.updateCategory = (req, res) => {
-  const category = req.category;
-  category.name = req.body.name;
-  category.save((error, updatedCategory) => {
-    if (error) {
-      res.status(400).json({
-        error: "Failed to update category",
-      });
+  const category = new Category(req.body);
+  console.log(
+    "Category : " +
+      category +
+      " | Category Id : " +
+      category._id +
+      " | req : " +
+      JSON.stringify(req.body)
+  );
+  Category.findByIdAndUpdate(
+    { _id: category._id },
+    { $set: req.body },
+    {
+      new: true,
+      useFindAndModify: false,
+    },
+    (error, cat) => {
+      if (error) {
+        console.log("In error of update " + error);
+        return res.status(400).json({
+          error: "Not updated",
+        });
+      }
+      console.log("Category after updating : " + cat);
+      return res.status(200).json(cat);
     }
-    res.json(updatedCategory);
-  });
+  );
 };
 
 exports.removeCategory = (req, res) => {
