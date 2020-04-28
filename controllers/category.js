@@ -25,6 +25,7 @@ exports.createCategory = (req, res) => {
     res.status(200).json(category);
   });
 };
+
 exports.getCategory = (req, res) => {
   return res.json(req.category);
 };
@@ -49,10 +50,13 @@ exports.updateCategory = (req, res) => {
       " | Category Id : " +
       category._id +
       " | req : " +
-      JSON.stringify(req.body)
+      JSON.stringify(req.body) +
+      " | req id : " +
+      JSON.stringify(req.category._id)
   );
+
   Category.findByIdAndUpdate(
-    { _id: category._id },
+    { _id: req.category._id },
     { $set: req.body },
     {
       new: true,
